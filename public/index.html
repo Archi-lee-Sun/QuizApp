@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizMind — Test Your Knowledge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <header class="header">
+    <div class="logo">QUIZ<span>MIND</span></div>
+    <a href="#history-section" class="history-btn">Past Quizzes ↓</a>
+  </header>
+
+  <main class="hero">
+    <div class="hero-label">CHALLENGE YOURSELF</div>
+    <h1 class="hero-title">What do you<br><span class="accent">actually</span> know?</h1>
+    <p class="hero-sub">Type any topic. Get 10 expert-level questions designed to surprise you.</p>
+
+    <div class="form-card">
+      <div class="form-row">
+        <div class="input-group">
+          <label class="input-label">TOPIC</label>
+          <input
+            type="text"
+            id="topic-input"
+            class="topic-input"
+            placeholder="e.g. Cold War, Black Holes, Jazz..."
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <div class="form-row split">
+        <div class="input-group">
+          <label class="input-label">DIFFICULTY</label>
+          <div class="difficulty-group">
+            <button class="diff-btn" data-value="easy">Easy</button>
+            <button class="diff-btn active" data-value="medium">Medium</button>
+            <button class="diff-btn" data-value="hard">Hard</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">QUESTIONS</label>
+          <div class="count-group">
+            <button class="count-btn" data-value="5">5</button>
+            <button class="count-btn active" data-value="10">10</button>
+            <button class="count-btn" data-value="15">15</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="generate-btn" id="generate-btn">
+        <span class="btn-text">Generate Quiz</span>
+        <span class="btn-arrow">→</span>
+        <div class="btn-loader" id="btn-loader"></div>
+      </button>
+
+      <div class="error-msg" id="error-msg"></div>
+    </div>
+
+    <div class="topics-row">
+      <span class="topics-label">Try:</span>
+      <button class="topic-chip" data-topic="Quantum Physics">Quantum Physics</button>
+      <button class="topic-chip" data-topic="Byzantine Empire">Byzantine Empire</button>
+      <button class="topic-chip" data-topic="Jazz History">Jazz History</button>
+      <button class="topic-chip" data-topic="Cold War">Cold War</button>
+      <button class="topic-chip" data-topic="Human Psychology">Human Psychology</button>
+    </div>
+  </main>
+
+  <section class="history-section" id="history-section">
+    <div class="history-header">
+      <h2 class="history-title">Your History</h2>
+      <div class="history-line"></div>
+    </div>
+    <div class="history-grid" id="history-grid">
+      <div class="history-empty" id="history-empty">No quizzes taken yet. Generate your first one above.</div>
+    </div>
+  </section>
+
+  <script src="js/index.js"></script>
+</body>
+</html>

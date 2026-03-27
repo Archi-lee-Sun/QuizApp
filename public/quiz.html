@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizMind — Playing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/quiz.css">
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-inner">
+      <div class="loading-spinner"></div>
+      <div class="loading-label">GENERATING QUIZ</div>
+      <div class="loading-topic" id="loading-topic"></div>
+    </div>
+  </div>
+
+  <!-- Quiz Screen -->
+  <div class="quiz-screen hidden" id="quiz-screen">
+
+    <header class="quiz-header">
+      <a href="/" class="back-btn">← Back</a>
+      <div class="quiz-meta" id="quiz-meta"></div>
+      <div class="quiz-counter" id="quiz-counter">1 / 10</div>
+    </header>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <main class="quiz-main">
+      <div class="question-card" id="question-card">
+        <div class="question-num" id="question-num">Q01</div>
+        <div class="question-text" id="question-text"></div>
+
+        <div class="options-grid" id="options-grid"></div>
+
+        <div class="explanation-box hidden" id="explanation-box">
+          <div class="explanation-label">INSIGHT</div>
+          <div class="explanation-text" id="explanation-text"></div>
+          <button class="next-btn" id="next-btn">
+            <span id="next-btn-text">Next Question →</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Results Screen -->
+  <div class="results-screen hidden" id="results-screen">
+    <div class="results-inner">
+      <div class="results-label">QUIZ COMPLETE</div>
+      <div class="results-score-wrap">
+        <div class="results-score" id="results-score">0</div>
+        <div class="results-total" id="results-total">/10</div>
+      </div>
+      <div class="results-message" id="results-message"></div>
+      <div class="results-bar">
+        <div class="results-bar-fill" id="results-bar-fill"></div>
+      </div>
+      <div class="results-actions">
+        <a href="/" class="results-btn primary">Try Another Topic</a>
+        <a href="/" class="results-btn secondary">View History</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/quiz.js"></script>
+</body>
+</html>
