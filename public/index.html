@@ -22,12 +22,12 @@
   <main class="hero">
     <div class="hero-label">CHALLENGE YOURSELF</div>
     <h1 class="hero-title">What do you<br><span class="accent">actually</span> know?</h1>
-    <p class="hero-sub">Type any topic. Get 10 expert-level questions designed to surprise you.</p>
+    <p class="hero-sub">Type any topic. Get expert-level questions designed to surprise you.</p>
 
     <div class="form-card">
       <div class="form-row">
         <div class="input-group">
-          <label class="input-label">TOPIC</label>
+          <label class="input-label" for="topic-input">TOPIC</label>
           <input
             type="text"
             id="topic-input"
@@ -41,7 +41,7 @@
       <div class="form-row split">
         <div class="input-group">
           <label class="input-label">DIFFICULTY</label>
-          <div class="difficulty-group">
+          <div class="difficulty-group" role="group" aria-label="Select difficulty">
             <button class="diff-btn" data-value="easy">Easy</button>
             <button class="diff-btn active" data-value="medium">Medium</button>
             <button class="diff-btn" data-value="hard">Hard</button>
@@ -50,7 +50,7 @@
 
         <div class="input-group">
           <label class="input-label">QUESTIONS</label>
-          <div class="count-group">
+          <div class="count-group" role="group" aria-label="Select number of questions">
             <button class="count-btn" data-value="5">5</button>
             <button class="count-btn active" data-value="10">10</button>
             <button class="count-btn" data-value="15">15</button>
@@ -60,14 +60,14 @@
 
       <button class="generate-btn" id="generate-btn">
         <span class="btn-text">Generate Quiz</span>
-        <span class="btn-arrow">→</span>
-        <div class="btn-loader" id="btn-loader"></div>
+        <span class="btn-arrow" aria-hidden="true">→</span>
+        <div class="btn-loader" id="btn-loader" aria-hidden="true"></div>
       </button>
 
-      <div class="error-msg" id="error-msg"></div>
+      <div class="error-msg" id="error-msg" role="alert" aria-live="polite"></div>
     </div>
 
-    <div class="topics-row">
+    <div class="topics-row" aria-label="Suggested topics">
       <span class="topics-label">Try:</span>
       <button class="topic-chip" data-topic="Quantum Physics">Quantum Physics</button>
       <button class="topic-chip" data-topic="Byzantine Empire">Byzantine Empire</button>
@@ -77,10 +77,10 @@
     </div>
   </main>
 
-  <section class="history-section" id="history-section">
+  <section class="history-section" id="history-section" aria-labelledby="history-heading">
     <div class="history-header">
-      <h2 class="history-title">Your History</h2>
-      <div class="history-line"></div>
+      <h2 class="history-title" id="history-heading">Your History</h2>
+      <div class="history-line" aria-hidden="true"></div>
     </div>
     <div class="history-grid" id="history-grid">
       <div class="history-empty" id="history-empty">No quizzes taken yet. Generate your first one above.</div>

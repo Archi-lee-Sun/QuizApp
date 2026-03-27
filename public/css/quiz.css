@@ -5,7 +5,7 @@
   --surface: #111118;
   --surface2: #1a1a24;
   --border: rgba(255,255,255,0.07);
-  --accent: #e8ff47;
+  --accent: #47caff;
   --correct: #4fffb0;
   --wrong: #ff4f6b;
   --text: #f0f0f0;
@@ -28,8 +28,8 @@ body {
 .bg-grid {
   position: fixed; inset: 0; z-index: 0;
   background-image:
-    linear-gradient(rgba(232,255,71,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232,255,71,0.02) 1px, transparent 1px);
+    linear-gradient(rgba(71,202,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71,202,255,0.02) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
 }
@@ -78,10 +78,22 @@ body {
   font-size: 12px; letter-spacing: 1px;
   color: var(--muted);
   text-decoration: none;
-  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  padding-bottom: 1px;
 }
 
-.back-btn:hover { color: var(--text); }
+.back-btn:hover,
+.back-btn:focus {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  outline: none;
+}
+
+.back-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 
 .quiz-meta {
   font-family: var(--font-mono);
@@ -96,9 +108,9 @@ body {
   color: var(--accent);
 }
 
-/* Progress Bar */
+/* Progress Bar — 4px for better visibility */
 .progress-bar {
-  height: 2px;
+  height: 4px;
   background: var(--surface2);
   position: relative; z-index: 10;
 }
@@ -115,7 +127,7 @@ body {
   position: relative; z-index: 10;
   max-width: 720px;
   margin: 0 auto;
-  padding: 48px 32px;
+  padding: 52px 32px;
 }
 
 .question-card {
@@ -129,10 +141,11 @@ body {
   margin-bottom: 16px;
 }
 
+/* Larger question text for clear hierarchy */
 .question-text {
-  font-size: 22px; font-weight: 400;
+  font-size: 24px; font-weight: 400;
   line-height: 1.5;
-  margin-bottom: 36px;
+  margin-bottom: 40px;
   color: var(--text);
 }
 
@@ -157,12 +170,19 @@ body {
   transition: all 0.15s;
   display: flex; align-items: flex-start; gap: 12px;
   line-height: 1.4;
+  min-height: 56px;
+  position: relative;
 }
 
 .option-btn:hover:not(:disabled) {
-  border-color: rgba(232,255,71,0.4);
+  border-color: rgba(71,202,255,0.4);
   background: var(--surface2);
   transform: translateY(-1px);
+}
+
+.option-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .option-btn:disabled { cursor: not-allowed; }
@@ -173,8 +193,10 @@ body {
   color: var(--muted);
   min-width: 18px;
   margin-top: 2px;
+  flex-shrink: 0;
 }
 
+/* Correct / Wrong state with icon */
 .option-btn.correct {
   border-color: var(--correct);
   background: rgba(79,255,176,0.08);
@@ -183,6 +205,15 @@ body {
 
 .option-btn.correct .option-letter { color: var(--correct); }
 
+.option-btn.correct::after {
+  content: '✓';
+  position: absolute;
+  right: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--correct);
+}
+
 .option-btn.wrong {
   border-color: var(--wrong);
   background: rgba(255,79,107,0.08);
@@ -190,6 +221,15 @@ body {
 }
 
 .option-btn.wrong .option-letter { color: var(--wrong); }
+
+.option-btn.wrong::after {
+  content: '✗';
+  position: absolute;
+  right: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--wrong);
+}
 
 /* Explanation */
 .explanation-box {
@@ -226,11 +266,25 @@ body {
   color: #0a0a0f;
   cursor: pointer;
   transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 10px;
 }
 
 .next-btn:hover {
-  background: #f5ff70;
+  background: #79daff;
   transform: translateY(-1px);
+}
+
+.next-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.next-arrow {
+  transition: transform 0.2s;
+}
+
+.next-btn:hover .next-arrow {
+  transform: translateX(4px);
 }
 
 /* Results Screen */
@@ -315,8 +369,13 @@ body {
 }
 
 .results-btn.primary:hover {
-  background: #f5ff70;
+  background: #79daff;
   transform: translateY(-1px);
+}
+
+.results-btn.primary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .results-btn.secondary {
@@ -328,6 +387,11 @@ body {
 .results-btn.secondary:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+.results-btn.secondary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* Animations */
@@ -345,5 +409,6 @@ body {
   .quiz-header { padding: 16px 20px; }
   .quiz-main { padding: 32px 20px; }
   .options-grid { grid-template-columns: 1fr; }
+  .question-text { font-size: 20px; }
   .results-score { font-size: 80px; }
 }
