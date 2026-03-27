@@ -78,26 +78,30 @@ Each object must have EXACTLY this structure:
   "explanation": "string"
 }
 ` 
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
-      console.log("FULL URL TEST:", url);
-      const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+          },
+          body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            messages: [{ role: 'user', content: prompt }],
+            response_format: { type: 'json_object' }
+          })
       })
-      })
+      
 
       const data = await response.json()
 
-      if (data.error){
-        console.error("FULL ERROR:", JSON.stringify(data.error, null, 2));
-        return res.status(400).json({ error: "AI API Error", details: data.error });
+      if (data.error) {
+          console.error("FULL ERROR:", JSON.stringify(data.error, null, 2))
+          return res.status(400).json({ error: "AI API Error", details: data.error })
       }
 
-      const rawText = data.candidates[0].content.parts[0].text
-      const cleaned = rawText.replace(/```json|```/g, '').trim()
-      const newQuestions = JSON.parse(cleaned)
+      const rawText = data.choices[0].message.content
+      
+      const newQuestions = JSON.parse(rawText)
 
       for(let i = 0; i < newQuestions.length; i++){
       const q = newQuestions[i]
