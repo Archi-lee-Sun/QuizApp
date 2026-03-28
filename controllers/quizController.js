@@ -25,58 +25,34 @@ async function generateQuiz(req , res){
       const needed = number_of_questions - quiz_questions.length 
         
       const prompt = `
-You are an expert-level quiz creator with the mindset of a critic, historian, and domain specialist — similar to how a top film critic, scientist, or analyst would think deeply about a subject.
+      ### ROLE
+You are a Senior Question Architect for "University Challenge" and "Mastermind." You write questions for experts who despise surface-level trivia. 
 
-Generate exactly ${needed} high-quality quiz questions about ${topic} at ${difficulty} difficulty.
+### OBJECTIVE
+Generate exactly ${needed} rigorous, fact-based questions on "${topic}" at ${difficulty} difficulty.
 
-CORE GOAL:
-The questions must feel интеллектуally rich, non-obvious, and insightful — not like typical trivia. Each question should reveal something surprising, subtle, or misunderstood about the topic.
+### THE "TRIVIA MASTER" RULES:
+1. **NO SURFACE FACTS:** Never ask for the most famous name, date, or event. Instead, ask for the *condition* surrounding it, the *person who came second*, or the *specific anomaly* that occurred.
+2. **THE SPOILER TECHNIQUE:** Start questions with a sophisticated fact to "set the stage," then ask for a related, deeper detail. (e.g., "While Pelé is famous for the 1958 Final, which teammate actually scored the first goal of that match?")
+3. **HOMOGENEOUS DISTRACTORS:** All 4 options must belong to the same "set." If the answer is a 19th-century French author, all distractors MUST be 19th-century French authors. Never mix categories.
+4. **FACTUAL INFLEXIBILITY:** You are a stickler for academic accuracy. You must distinguish between nuanced labels (e.g., distinguishing between 'Existentialist' and 'Absurdist' or 'Realist').
+5. **ELIMINATE VAGUENESS:** Avoid "Why" or "How" questions that lead to long-winded analysis. Every question must have a "Locked" factual answer.
 
-STRICT RULES:
+### DIFFICULTY CALIBRATION:
+- **EASY:** Accessible to a regular hobbyist. No "obvious" general knowledge.
+- **MEDIUM:** Requires specific knowledge of eras, rosters, or sub-genres.
+- **HARD:** Requires "Deep-Cut" knowledge—obscure records, specific technicalities, or the 'reason' behind a famous exclusion or failure.
 
-1. QUESTION QUALITY
-- Avoid generic, overused, or surface-level questions.
-- Focus on lesser-known facts, hidden details, paradoxes, or nuanced understanding.
-- Questions should feel like they come from an expert, not a textbook.
-- If possible, include "why", "how", or conceptual traps rather than pure memorization.
-
-2. OPTIONS (CRITICAL)
-- Provide exactly 4 options.
-- All wrong answers must be plausible and intellectually tempting.
-- Avoid obviously incorrect or joke answers.
-- Options should be similar in structure and length.
-- Include at least one "trap" option that reflects a common misconception.
-
-3. CORRECT ANSWER
-- Ensure only ONE correct answer.
-- Avoid ambiguity.
-
-4. EXPLANATION (VERY IMPORTANT)
-- Explanation must teach something NEW or counterintuitive.
-- Do not repeat the question.
-- Explain WHY the correct answer is correct AND why others are wrong (briefly).
-- Make the explanation feel like insight from an expert (e.g., critic-level thinking).
-
-5. DIFFICULTY CONTROL
-- EASY → still interesting, but accessible
-- MEDIUM → requires some reasoning or deeper knowledge
-- HARD → requires expert-level insight, subtle distinctions, or multi-step thinking
-
-6. DIVERSITY
-- Do not repeat patterns or question styles.
-- Mix conceptual, analytical, and detail-based questions.
-
-OUTPUT FORMAT (STRICT):
-Return ONLY a valid JSON array. No markdown, no commentary, no extra text.
-
-Each object must have EXACTLY this structure:
-
-{
-  "question": "string",
-  "options": ["string", "string", "string", "string"],
-  "correct_index": number (0-3),
-  "explanation": "string"
-}
+### OUTPUT SPECIFICATION:
+Return ONLY a JSON array. No markdown. No intro. No outro.
+[
+  {
+    "question": "string",
+    "options": ["string", "string", "string", "string"],
+    "correct_index": number,
+    "explanation": "Provide the 'insider knowledge' that makes this fact interesting. Mention why the trap options are plausible."
+  }
+]
 ` 
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
           method: 'POST',
@@ -101,10 +77,13 @@ Each object must have EXACTLY this structure:
 
       const rawText = data.choices[0].message.content
       
-      const newQuestions = JSON.parse(rawText)
+      const parsed = JSON.parse(rawText)
+      const newQuestions = Array.isArray(parsed) ? parsed : (parsed.questions || Object.values(parsed)[0])
 
       for(let i = 0; i < newQuestions.length; i++){
       const q = newQuestions[i]
+
+      if(!q.question || !q.options || !q.explanation) continue
 
       const result = db.prepare(`
         INSERT INTO questions(topic, difficulty, question, options, correct_index, explanation)

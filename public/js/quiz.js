@@ -4,6 +4,13 @@ const quizId = quizData.quizID
 
 let currentIndex = 0
 
+console.log('quizData:', quizData)
+
+if(!quizData || !quizData.questions || quizData.questions.length === 0) {
+    alert('Quiz generation failed. Please try again.')
+    window.location.href = '/'
+}
+
 const loadingScreen = document.getElementById('loading-screen')
 const loadingTopic = document.getElementById('loading-topic')
 const quizScreen = document.getElementById('quiz-screen')
